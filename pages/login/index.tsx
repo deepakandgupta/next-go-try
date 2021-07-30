@@ -1,5 +1,7 @@
 import React from 'react'
 import LoginForm from '../../src/components/LoginForm'
+import Cookies from 'js-cookie'
+import router from 'next/router';
 
 export default function Login() {
 const submitHandler = async (email: string, password: string ) => {
@@ -15,10 +17,13 @@ const submitHandler = async (email: string, password: string ) => {
         },
         body: JSON.stringify({"username": email, "password": password})
     })
-    console.log(response);
+
+    const myAuthHeader = response.headers.get("Authorization")
+    console.log(myAuthHeader);
     
-    response.headers.forEach(console.log);
-    
+    Cookies.set('sessionID', myAuthHeader, { expires: 7 })
+
+    router.push("dashboard");
     return await response.json()
 }
 

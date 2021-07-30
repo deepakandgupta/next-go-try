@@ -1,34 +1,33 @@
-import React from 'react'
-import axios from 'axios';
-
-export async function getServerSideProps() {
-	const backendURL = process.env.BACKEND_URL;
-	const url = `${backendURL}/dashboard`;
-	console.log(url);
-	// const res = await axios.get(url, {withCredentials: true})
-	const res = await fetch(url, {
-		credentials: "include",
-		method: "GET",
-		headers: {
-            'Content-Type': 'application/json'
-        },
-		mode: "cors"
-	});
-    
-	const data = await res.json()
-	console.log(data);
-	if (!data) {
-		return {
-			notFound: true,
-		};
-	}
-
-	return {
-		props: { data },
-	};
-}
+import React, {useEffect, useState} from 'react'
 
 export default function Dashboard({articles}) {
+	const getData = async () => {
+		const backendURL = "http://localhost:5000";
+		const url = `${backendURL}/dashboard`;
+		console.log(url);
+	
+		const res = await fetch(url, {
+			credentials: "include",
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			mode: "cors"
+		});
+    
+		const data = await res.json()
+		console.log(data);
+	}
+
+	const [userData, setUserData] = useState({});
+
+	useEffect(() => {
+		setUserData(getData());
+	}, [])
+
+	if(!userData){
+		return (<div>Not Found</div>)
+	}
     return (
         <div>Welcome</div>
     )
