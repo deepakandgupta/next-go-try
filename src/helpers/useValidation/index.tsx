@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 
-export const useNameValidation = (name) => {
+export const useNameValidation = (name: string) => {
   const [err, setErr] = useState("");
+
+  name = name.trim();
   useEffect(() => {
     if (name.length !== 0) {
-      if (!name.match(/^[a-zA-Z]+$/))
-        setErr("Name Should only contain alphabets unless its Jr Musk");
+      if (!name.match(/^[a-zA-Z ]+$/))
+        setErr("Name Should only contain alphabets");
       else if (name.length < 3)
         setErr("Name should be Greater than 3 character");
       else setErr("");

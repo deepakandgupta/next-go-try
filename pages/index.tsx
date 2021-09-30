@@ -38,7 +38,7 @@ export default function Home({ articles }) {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<Typography variant="h3">Articles</Typography>
+			<Typography variant="h3">A simple GO and Next based Blog</Typography>
       
 		</div>
 	);

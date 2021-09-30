@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RegistrationForm = (props) => {
+const RegistrationForm = ({submitHandler}) => {
   const classes = useStyles();
 
   const router = useRouter();
@@ -71,7 +71,9 @@ const RegistrationForm = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+    const res = await submitHandler(name, email, password);
+    console.log("******Registration*******");
+    console.log(res);
     // try {
     //   await Auth.signUp({
     //     username: email,

@@ -20,6 +20,22 @@ export const login = async (email: string, password: string) => {
     
 }
 
+export const register = async (name:string, email: string, password: string) => {
+    const backendURL = "http://www.localhost:5000/";
+	const loginURL = `${backendURL}register`;
+    console.log(loginURL);
+    
+    return await fetch(loginURL, {
+        credentials: "include",
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"name": name,"username": email, "password": password})
+    })
+    
+}
+
 export const logout = async () => {
     const backendURL = "http://localhost:5000";
     const url = `${backendURL}/logout`;
