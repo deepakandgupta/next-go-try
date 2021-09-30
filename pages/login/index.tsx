@@ -2,29 +2,22 @@ import React from 'react'
 import LoginForm from '../../src/components/LoginForm'
 import Cookies from 'js-cookie'
 import router from 'next/router';
+import {login} from "../../src/helpers/handlers/auth"
 
 export default function Login() {
 const submitHandler = async (email: string, password: string ) => {
-    const backendURL = "http://www.localhost:5000/";
-	const loginURL = `${backendURL}login`;
-    console.log(loginURL);
+    const response = await login(email, password);
     
-    const response = await fetch(loginURL, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"username": email, "password": password})
-    })
-
+    if(response.status < 300){
     const myAuthHeader = response.headers.get("Authorization")
-    console.log(myAuthHeader);
     
-    Cookies.set('sessionID', myAuthHeader, { expires: 7 })
-
+    Cookies.set('sessionID', myAuthHeader, { expires: 7, sameSite: "strict" })
     router.push("dashboard");
-    return await response.json()
+    }
+    const res = await response.json()
+    
+    console.log(res);
+
 }
 
     return (

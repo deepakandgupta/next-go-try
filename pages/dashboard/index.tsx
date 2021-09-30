@@ -16,19 +16,21 @@ export default function Dashboard({articles}) {
 		});
     
 		const data = await res.json()
-		console.log(data);
+		setIsLoggedIn(res.status < 300);
+		setUserData(data);
 	}
 
-	const [userData, setUserData] = useState({});
+	const [userData, setUserData] = useState(undefined);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	useEffect(() => {
-		setUserData(getData());
+		getData();
 	}, [])
 
-	if(!userData){
+	if(!isLoggedIn || !userData){
 		return (<div>Not Found</div>)
 	}
     return (
-        <div>Welcome</div>
+        <div>Welcome {userData ? userData.message : {}}</div>
     )
 }

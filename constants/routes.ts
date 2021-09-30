@@ -1,6 +1,6 @@
 enum routes {
     Home = "/",
-    Article = "/:articleid",
+    Article = "/stories",
     Dashboard = "/dashboard",
     AddArticle = "/:addArticle",
     Login = "/login",
@@ -8,7 +8,7 @@ enum routes {
 
 const navText = [
     { text: "Home", link: routes.Home },
-    { text: "Article", link: routes.Article },
+    { text: "Stories", link: routes.Article },
     { text: "Dashboard", link: routes.Dashboard },
     { text: "AddArticle", link: routes.AddArticle },
     {

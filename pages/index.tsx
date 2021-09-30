@@ -4,9 +4,6 @@ import Head from "next/head";
 import theme from "../src/theme";
 import { makeStyles, Typography } from "@material-ui/core";
 
-
-
-
 const useStyles = makeStyles({
 	root: {
 		textAlign: "center",
