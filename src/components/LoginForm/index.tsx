@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   useEmailValidation,
   usePasswordValidation,
-} from "../../helpers/useValidation"
+} from "../../helpers/useValidation";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginForm = ({submitHandler}) => {
+const LoginForm = ({ submitHandler }) => {
   const classes = useStyles();
 
   const router = useRouter();
@@ -75,18 +75,10 @@ const LoginForm = ({submitHandler}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const res = await submitHandler(email, password)
-    console.log(res);
-    // router.push("/dashboard")
-    // try {
-    // //   const signedInUserData = await Auth.signIn(email, password);
-    //   setIsAuthenticatedHandler(true);
-    // //   setUserDataHandler(signedInUserData.signInUserSession.idToken.payload);
-    // //   props.history.push("/dashboard");
-    // } catch (error) {
-    //   setIsAuthenticatedHandler(false);
-    //   setUserDataHandler(null);
-    // }
+    const data = await submitHandler(email, password);
+    if (data && data.error) {
+      setAuthError(data.error);
+    }
   };
 
   return (

@@ -19,7 +19,13 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import useStyles from "./NavPhone.styles";
 
-export default function SwipeableTemporaryDrawer() {
+
+interface Props {
+	isAuthenticated: boolean;
+	name: string | undefined;
+}
+
+const NavPhone = ({isAuthenticated, name}: Props) => {
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const router = useRouter();
 	const classes = useStyles();
@@ -112,3 +118,5 @@ export default function SwipeableTemporaryDrawer() {
 		</div>
 	);
 }
+
+export default NavPhone;
