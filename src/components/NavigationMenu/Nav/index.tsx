@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 
+import Cookies from "js-cookie";
 import { routes, navText } from "../../../../constants/routes";
 
 import {
@@ -32,10 +33,24 @@ const Nav = ({ isAuthenticated, name }: Props) => {
 
   const logoutHandler = async () => {
     handleClose();
-    const data = await logout();
-    if (data) {
-      authContext.setAuth({ isAuthenticated: false, name: "" });
+    const res = await logout();
+
+    if (res.status < 300) {
+      Cookies.remove("sessionID", {
+        expires: 7,
+        sameSite: "strict",
+      });
+
+      authContext.setAuth({ isAuthenticated: false, name: "", username: "" });
     }
+
+    const data = await res.json();
+    console.log(data);
+    if (data) {
+      router.push(routes.Home);
+    }
+
+    return data;
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

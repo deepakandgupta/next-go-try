@@ -9,13 +9,27 @@ export default function Login() {
   const authContext = useContext(AuthContext);
 
   const submitHandler = async (email: string, password: string) => {
-    const data = await login(email, password);
+    try {
+      const res = await login(email, password);
+      const data = await res.json();
 
-    if (data) {
-      if (!data.error) {
-        authContext.setAuth({ isAuthenticated: true, name: "hello" });
+      if (res.status < 300) {
+        const myAuthHeader = res.headers.get("Authorization");
+
+        Cookies.set("sessionID", myAuthHeader, {
+          expires: 7,
+          sameSite: "strict",
+        });
+
+        authContext.setAuth({ isAuthenticated: true, name: data.name, username: data.username });
+
+        router.push("dashboard");
       }
+
+      console.log(data);
       return data;
+    } catch (error) {
+      return error;
     }
   };
 

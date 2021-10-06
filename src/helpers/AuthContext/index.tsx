@@ -1,14 +1,22 @@
 import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { dashboard } from "../handlers/auth";
 
-const initialState = {
+interface AuthState{
+  isAuthenticated: boolean,
+  name: string,
+  username: string
+}
+
+const initialState: AuthState = {
   isAuthenticated: false,
   name: "",
+  username: "",
 };
 
 const defaultVal = {
   auth: initialState,
-  setAuth: (auth: any) => {},
+  setAuth: (auth: AuthState) => {},
 };
 
 const AuthContext = createContext(defaultVal);
@@ -16,32 +24,29 @@ const AuthContext = createContext(defaultVal);
 const AuthProvider = ({ children }) => {
   const [auth, setAuthState] = useState(initialState);
 
-  const getAuthState = () => {
+  const getAuthState = async () => {
     const authDataString = Cookies.get("sessionID");
-    console.log("This is get Auth State");
-    console.log(authDataString);
     if (authDataString) {
-      const newData = {
-        isAuthenticated: true,
-        name: "hello",
-      };
-      setAuthState(newData);
+      const res = await dashboard();
+      const data = await res.json();
+      
+      if (res.status <= 300) {
+        const newData = {
+          isAuthenticated: true,
+          name: data.name,
+          username: data.username
+        };
+        setAuth(newData);
+      } else {
+        setAuth(initialState);
+      }
     } else {
-      setAuthState(initialState);
+      setAuth(initialState);
     }
   };
 
-  const setAuth = (auth) => {
-    try {
-      // Cookies.set("sessionID", "", {
-      // 	expires: 7,
-      // 	sameSite: "strict",
-      // });
-
-      setAuthState(auth);
-    } catch (error) {
-      Promise.reject(error);
-    }
+  const setAuth = (auth: AuthState) => {
+    setAuthState(auth);
   };
 
   useEffect(() => {
