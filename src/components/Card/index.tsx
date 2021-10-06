@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 
 interface Props {
 	title: string;
-	content: string;
 	clickHandler: Function;
 }
 
@@ -45,13 +44,10 @@ export default function ArticleCard(props: Props) {
 				<Typography variant="h5" component="h2">
 					{props.title}
 				</Typography>
-				<Typography variant="body2" component="p">
-					{props.content}
-				</Typography>
 			</CardContent>
 			<CardActions className={classes.btn}>
 				<Button onClick={() => props.clickHandler()} size="small">
-					Read More
+					Read Story
 				</Button>
 			</CardActions>
 		</Card>

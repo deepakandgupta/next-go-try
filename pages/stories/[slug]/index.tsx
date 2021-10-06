@@ -1,13 +1,15 @@
-import { makeStyles, Typography } from "@material-ui/core";
 import React from "react";
-import ReactMarkdown from "react-markdown";
+import MarkdownIt from "markdown-it";
+
+import { makeStyles, Paper, Typography } from "@material-ui/core";
+
 import { ArticleModel } from "../../../interfaces/article";
+
 
 export async function getServerSideProps(context) {
 	const articleId = context.params.slug;
 	const backendURL = process.env.BACKEND_URL;
 	const articleURL = `${backendURL}/article/${articleId}`;
-	console.log(articleURL);
 	const res = await fetch(articleURL);
 	const data = await res.json();
 	const article = data.data;
@@ -27,23 +29,44 @@ interface Props {
 	article: ArticleModel;
 }
 
+const mdParser = new MarkdownIt();
+
 const useStyles = makeStyles({
 	root: {
-		textAlign: "center",
-	},
-	articles: {
 		display: "flex",
-		alignItems: "center",
 		justifyContent: "center",
+		whiteSpace: "normal"
+	},
+	paper: {
+		padding: 20,
+		width: "80vw",
+		boxShadow: "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px",
+		
+	},
+	title: {
+		textAlign: "center"
+	},
+	content: {
+		"& *": {
+			overflow: "auto"
+		}
 	},
 });
 
 const Article = ({ article }: Props) => {
 	const classes = useStyles();
+
+	function createMarkup(value: string) {
+		const data = mdParser.render(value)
+		return {__html: data};
+	}
+
 	return (
 		<div className={classes.root}>
-			<Typography variant="h3">{article.title}</Typography>
-			<ReactMarkdown>{article.content}</ReactMarkdown>
+			<Paper className={classes.paper}>
+			<Typography className={classes.title} variant="h3">{article.title}</Typography>
+			<div className={classes.content} dangerouslySetInnerHTML = {createMarkup(article.content)}/>
+			</Paper>
 		</div>
 	);
 };

@@ -4,7 +4,6 @@ export default function Dashboard({articles}) {
 	const getData = async () => {
 		const backendURL = "http://localhost:5000";
 		const url = `${backendURL}/dashboard`;
-		console.log(url);
 	
 		const res = await fetch(url, {
 			credentials: "include",

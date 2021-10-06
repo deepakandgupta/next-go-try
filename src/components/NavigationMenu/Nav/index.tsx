@@ -117,10 +117,10 @@ const Nav = ({ isAuthenticated, name }: Props) => {
                   <MenuItem
                     onClick={() => {
                       handleClose();
-                      router.push(routes.AddArticle);
+                      router.push(routes.AddStory);
                     }}
                   >
-                    Add Article
+                    Add Story
                   </MenuItem>
                   <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                 </Menu>

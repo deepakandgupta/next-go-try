@@ -72,21 +72,6 @@ const RegistrationForm = ({submitHandler}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const res = await submitHandler(name, email, password);
-    console.log("******Registration*******");
-    console.log(res);
-    // try {
-    //   await Auth.signUp({
-    //     username: email,
-    //     password,
-    //     attributes: {
-    //       name: name,
-    //     },
-    //   });
-    //   props.history.push("/registrationsuccess");
-    // } catch (error) {
-    //   console.log(error);
-    //   setCognitoError(error.message);
-    // }
   };
 
   return (

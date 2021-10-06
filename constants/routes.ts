@@ -2,7 +2,7 @@ enum routes {
     Home = "/",
     Article = "/stories",
     Dashboard = "/dashboard",
-    AddArticle = "/:addArticle",
+    AddStory = "mystories/add",
     Login = "/login",
 }
 
