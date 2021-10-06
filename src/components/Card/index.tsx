@@ -24,6 +24,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
+	name: string
 	title: string;
 	clickHandler: Function;
 }
@@ -39,7 +40,7 @@ export default function ArticleCard(props: Props) {
 					color="textSecondary"
 					gutterBottom
 				>
-					username
+					{props.name}
 				</Typography>
 				<Typography variant="h5" component="h2">
 					{props.title}

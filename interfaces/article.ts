@@ -1,7 +1,8 @@
 interface ArticleModel {
-	_id : string,
-	title: string,
-	content: string,
+  _id: string;
+  name: string;
+  title: string;
+  content: string;
 }
 
-export type {ArticleModel}
+export type { ArticleModel };

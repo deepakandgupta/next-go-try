@@ -48,6 +48,7 @@ export default function StoriesCards({ articles }: Props) {
               key={article._id}
             >
               <ArticleCard
+                name={article.name}
                 title={article.title}
                 clickHandler={() => {
                   router.push(`stories/${article._id}`);
