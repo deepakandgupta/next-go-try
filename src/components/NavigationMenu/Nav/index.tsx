@@ -13,7 +13,6 @@ import {
   MenuItem,
   Menu,
 } from "@material-ui/core";
-import AccountCircleIcon from "@material-ui/icons/AccountBox";
 import useStyles from "./Nav.styles";
 
 import { logout } from "../../../helpers/handlers/auth";
@@ -23,9 +22,10 @@ import { AuthContext } from "../../../helpers/AuthContext";
 interface Props {
   isAuthenticated: boolean;
   name: string | undefined;
+  isSmallScreen: boolean
 }
 
-const Nav = ({ isAuthenticated, name }: Props) => {
+const Nav = ({ isAuthenticated, name, isSmallScreen }: Props) => {
   const classes = useStyles();
   const router = useRouter();
   const authContext = useContext(AuthContext);
@@ -61,6 +61,18 @@ const Nav = ({ isAuthenticated, name }: Props) => {
     setAnchorEl(null);
   };
 
+  const getNameInitials = () => {
+    let first = "@";
+    if (name && name.length > 0) {
+      first = name.charAt(0);
+      const strs = name.split(" ");
+      if (strs && strs[1] && strs[1].length > 0) {
+        first = first + " " + strs[1].charAt(0);
+      }
+    }
+    return first;
+  };
+
   return (
     <AppBar position="sticky" className={classes.appbar} elevation={0}>
       <Toolbar className={classes.appbarWrapper}>
@@ -69,7 +81,7 @@ const Nav = ({ isAuthenticated, name }: Props) => {
           onClick={() => router.push(routes.Home)}
         >
           <Avatar className={classes.avatar} alt="Logo" src="/favicon.ico" />
-          <Typography variant="h5" className={classes.appbarTitle}>
+          <Typography variant={isSmallScreen ? "body1" : "h5"} className={classes.appbarTitle}>
             Go-Next Site
           </Typography>
         </span>
@@ -97,7 +109,7 @@ const Nav = ({ isAuthenticated, name }: Props) => {
                   aria-haspopup="true"
                   onClick={handleClick}
                 >
-                  <AccountCircleIcon className={classes.icon} />
+                  <Avatar className={classes.green}>{getNameInitials()}</Avatar>
                 </IconButton>
                 <Menu
                   id="simple-menu"

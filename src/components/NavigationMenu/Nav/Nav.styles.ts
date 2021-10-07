@@ -1,4 +1,5 @@
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { green, pink } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme: Theme) =>
 createStyles({
@@ -44,6 +45,16 @@ createStyles({
         fontSize: "20px",
         textTransform: "capitalize"
     },
+    pink: {
+        color: theme.palette.getContrastText(pink[500]),
+        backgroundColor: pink[500],
+      },
+      green: {
+        color: '#fff',
+        backgroundColor: theme.palette.secondary.main,
+        minWidth: "50px",
+        minHeight: "50px"
+      },
 }),
 );
 

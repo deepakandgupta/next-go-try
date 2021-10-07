@@ -1,4 +1,4 @@
-const backendURL = "http://localhost:5000";
+import { backendURL } from "../../../constants/routes";
 
 export const addArticle = async (title: string, content: string) => {
   const loginURL = `${backendURL}/article`;

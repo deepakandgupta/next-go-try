@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 import MarkdownIt from "markdown-it";
@@ -9,6 +9,8 @@ import "react-markdown-editor-lite/lib/index.css";
 import { Button, Snackbar, TextField } from "@material-ui/core";
 import { addArticle } from "../../../src/helpers/handlers/article";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { AuthContext } from "../../../src/helpers/AuthContext";
+import Loader from "../../../src/components/Loader";
 
 const mdParser = new MarkdownIt();
 
@@ -17,37 +19,47 @@ function Alert(props: AlertProps) {
 }
 
 const AddArticle = () => {
+  const authContext = useContext(AuthContext);
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [snackBarType, setSnackBarType] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const [articleErr, setArticleErr] = useState("");
 
-  useEffect(() => {
-    setTitle("");
-    setContent("");
-  }, []);
+  useEffect(() => {}, [title, content]);
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     try {
       if (title.length === 0) {
-        const errorMsg = "Title cannot be empty"
+        const errorMsg = "Title cannot be empty";
         setArticleErr(errorMsg);
         throw new Error(errorMsg);
       }
       if (content.length === 0) {
-        const errorMsg = "Story cannot be empty"
+        const errorMsg = "Story cannot be empty";
         setArticleErr(errorMsg);
         throw new Error(errorMsg);
       }
       event.preventDefault();
       const res = await addArticle(title, content);
+      setTitle("");
+      setContent("");
       const data = await res.json();
       if (data && data.error) {
         setArticleErr(data.error);
         throw new Error(data.error);
       }
+      console.log("Finally");
+      handleSnackbarClick(true);
+      setArticleErr("Story Posted");
     } catch (err) {
       handleSnackbarClick();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,7 +69,12 @@ const AddArticle = () => {
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
-  const handleSnackbarClick = () => {
+  const handleSnackbarClick = (success?: boolean) => {
+    if (success) {
+      setSnackBarType(true);
+    } else {
+      setSnackBarType(false);
+    }
     setOpenSnackbar(true);
   };
 
@@ -72,14 +89,22 @@ const AddArticle = () => {
     setOpenSnackbar(false);
   };
 
+  if (!authContext.auth.isAuthenticated) {
+    return <Loader />;
+  }
+
   return (
     <div>
+      {loading && <Loader />}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity="error">
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackBarType ? "success" : "error"}
+        >
           {articleErr}
         </Alert>
       </Snackbar>
@@ -89,6 +114,7 @@ const AddArticle = () => {
         id="story-title"
         label="Title"
         variant="standard"
+        value={title}
       />
       <MdEditor
         plugins={[
@@ -106,6 +132,7 @@ const AddArticle = () => {
         style={{ height: "80vh" }}
         renderHTML={(text) => mdParser.render(text)}
         onChange={handleEditorChange}
+        value={content}
       />
       <div style={{ width: "100%", textAlign: "center" }}>
         <Button

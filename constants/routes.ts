@@ -1,3 +1,4 @@
+const backendURL = "http://localhost:5000";
 enum routes {
     Home = "/",
     Article = "/stories",
@@ -15,4 +16,4 @@ const navText = [
     },
 ];
 
-export {routes, navText};
+export {routes, navText, backendURL};

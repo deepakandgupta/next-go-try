@@ -1,35 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import { Typography } from "@material-ui/core";
+import router from "next/router";
+import React, { useContext, useEffect, useState } from "react";
+import { routes } from "../../constants/routes";
+import Loader from "../../src/components/Loader";
+import { AuthContext } from "../../src/helpers/AuthContext";
 
-export default function Dashboard({articles}) {
-	const getData = async () => {
-		const backendURL = "http://localhost:5000";
-		const url = `${backendURL}/dashboard`;
-	
-		const res = await fetch(url, {
-			credentials: "include",
-			method: "GET",
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			mode: "cors"
-		});
-    
-		const data = await res.json()
-		setIsLoggedIn(res.status < 300);
-		setUserData(data);
-	}
+export default function Dashboard() {
+  const authContext = useContext(AuthContext);
 
-	const [userData, setUserData] = useState(undefined);
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+  }, [authContext]);
 
-	useEffect(() => {
-		getData();
-	}, [])
+  if (!authContext.auth.isAuthenticated) {
+    return <Loader />;
+  }
 
-	if(!isLoggedIn || !userData){
-		return (<div>Not Found</div>)
-	}
-    return (
-        <div>Welcome {userData ? userData.message : {}}</div>
-    )
+  return <Typography variant="h5">Welcome {authContext.auth.name}</Typography>;
 }

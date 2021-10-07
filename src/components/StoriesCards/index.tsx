@@ -7,12 +7,14 @@ import { ArticleModel } from "../../../interfaces/article";
 
 const useStyles = makeStyles({
   root: {
-    textAlign: "center",
+    minHeight: "80vh",
+    backgroundColor: "rgba(245,245,245, 1)",
   },
   articles: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    padding: 10,
   },
   article: {
     display: "flex",
@@ -35,8 +37,8 @@ export default function StoriesCards({ articles }: Props) {
   const router = useRouter();
 
   return (
-    <div>
-      <Grid className={classes.articles} container spacing={3}>
+    <div className={classes.root}>
+      <Grid className={classes.articles} container spacing={0}>
         {articles.map((article) => {
           return (
             <Grid
