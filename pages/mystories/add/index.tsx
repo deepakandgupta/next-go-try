@@ -53,7 +53,6 @@ const AddArticle = () => {
         setArticleErr(data.error);
         throw new Error(data.error);
       }
-      console.log("Finally");
       handleSnackbarClick(true);
       setArticleErr("Story Posted");
     } catch (err) {

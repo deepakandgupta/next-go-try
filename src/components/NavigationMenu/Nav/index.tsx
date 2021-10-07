@@ -45,7 +45,6 @@ const Nav = ({ isAuthenticated, name, isSmallScreen }: Props) => {
     }
 
     const data = await res.json();
-    console.log(data);
     if (data) {
       router.push(routes.Home);
     }

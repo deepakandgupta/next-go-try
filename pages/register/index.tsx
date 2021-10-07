@@ -10,8 +10,6 @@ export default function Register() {
             router.push("login");
         }
         const res = await response.json()
-        
-        console.log(res);
     
     }
 

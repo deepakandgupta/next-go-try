@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 
 import { Grid, makeStyles, Typography } from "@material-ui/core";
-import { getURL } from "../src/helpers/handlers/auth";
 
 const useStyles = makeStyles({
   root: {},
@@ -36,7 +35,6 @@ export default function Home({ }) {
   return (
     
     <Grid container component="main" className={classes.root}>
-      {getURL()}
       <Head>
         <title>Go-Next Site</title>
         <meta name="description" content="golang and next js app" />
